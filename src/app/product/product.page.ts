@@ -114,8 +114,9 @@ export class ProductPage implements OnInit {
       data.push({
         text : item[i].label,
         handler : ()=>{
-          console.log('abc')
-          this.choose_subcategory(item[i])
+          console.log('subcategory selected, show possible has children');
+          // this.choose_subcategory(item[i])
+          this.choose_kategori({detail:{value:item[i]}});
         }
       })
     }
@@ -175,23 +176,33 @@ export class ProductPage implements OnInit {
   }; 
   choose_kategori(val){
     let hasil : any = {}
-    hasil = val.detail.value;
     if(val=='semua'){
       this.selected_category = '';
       this.selected_sub_category = '';
       this.get_product('refresh', null);
       return;      
     }
-    if(hasil.children){
-      console.log('a')
-      this.presentActionSheet(hasil.children);
-    }else{
-      console.log('b')
-      this.selected_category = hasil.link;
+    console.log('choose kategori argument:',val);
+    if(typeof val == 'object'){
+      hasil = val.detail.value;
+      if(hasil.children && hasil.children.length > 0){
+        console.log('show subcategory action sheet');
+        this.presentActionSheet(hasil.children);
+      }else {
+        console.log('req product with filter category');
+        this.selected_category = hasil.link;
+        this.selected_sub_category = '';
+        this.get_product('refresh', null);
+      }
+    }
+    else{
+      console.log('has no children, request product with category filter');
+      // this.selected_category = hasil.link;
+      this.selected_category = '';
       this.selected_sub_category = '';
       this.get_product('refresh', null);
     }
-    console.log(hasil, this.selected_category, 'hasil')
+    // console.log(hasil, this.selected_category, 'hasil')
 
   } 
   ionViewWillEnter() {
