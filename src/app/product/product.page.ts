@@ -133,22 +133,28 @@ export class ProductPage implements OnInit {
     if(val==1){
       if(this.choose_harga==0){
         this.choose_harga=1;
-        this.order = 'terendah_ke_termahal';
+        // this.order = 'terendah_ke_termahal';
+        this.order = 'price_asc';
       }else{
         this.choose_harga=0;
-        this.order = 'termahal_ke_terendah';
+        // this.order = 'termahal_ke_terendah';
+        this.order = 'price_desc';
       }
     }else if(val==2){
       if(this.choose_penjualan==0){
         this.choose_penjualan=1;
+        this.order = 'sale_asc';
       }else{
         this.choose_penjualan=0;
+        this.order = 'sale_desc';
       }
     }else if(val==3){
       if(this.choose_terbaru==0){
         this.choose_terbaru=1;
+        this.order = 'date_asc';
       }else{
         this.choose_terbaru=0;
+        this.order = 'date_desc';
       }
     }else if(val==0){
       this.choose_harga = 0;
