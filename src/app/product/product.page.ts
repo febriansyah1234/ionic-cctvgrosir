@@ -116,7 +116,8 @@ export class ProductPage implements OnInit {
         handler : ()=>{
           console.log('subcategory selected, show possible has children');
           // this.choose_subcategory(item[i])
-          this.choose_kategori({detail:{value:item[i]}});
+          // this.choose_kategori({detail:{value:item[i]}});
+          this.choose_kategori(item[i]);
         }
       })
     }
@@ -173,8 +174,9 @@ export class ProductPage implements OnInit {
     //   console.log("scrolling up, revealing footer...");
     //   this.hide_header = false;
     // };   
-  }; 
+  };
   choose_kategori(val){
+    console.log('choose kategory', val);
     let hasil : any = {}
     if(val=='semua'){
       this.selected_category = '';
@@ -184,7 +186,8 @@ export class ProductPage implements OnInit {
     }
     console.log('choose kategori argument:',val);
     if(typeof val == 'object'){
-      hasil = val.detail.value;
+      // hasil = val.detail.value;
+      hasil = val;
       if(hasil.children && hasil.children.length > 0){
         console.log('show subcategory action sheet');
         this.presentActionSheet(hasil.children);

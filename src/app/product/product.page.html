@@ -49,13 +49,16 @@
     </ion-row>
   <!-- </ion-toolbar> -->
   <!-- <ion-toolbar> -->
-    <ion-segment (ionChange)="choose_kategori($event)" scrollable>
+    <!-- <ion-segment (ionChange)="choose_kategori($event)" scrollable> -->
+      <ion-segment scrollable>
       <ion-segment-button value="semua" checked>
-        <ion-label class="label_kategori">Semua</ion-label>
-      </ion-segment-button>      
-      <ion-segment-button [value]="item" *ngFor="let item of product_category">
-        <ion-label class="label_kategori">{{item.label}}</ion-label>
+        <ion-label class="label_kategori" (click)="choose_kategori('semua')">Semua</ion-label>
       </ion-segment-button>
+      <ng-container *ngFor="let item of product_category">
+        <ion-segment-button [value]="item" (click)="choose_kategori(item)">
+          <ion-label class="label_kategori">{{item.label}}</ion-label>
+        </ion-segment-button>
+      </ng-container>
     </ion-segment>
   <!-- </ion-toolbar> -->
   <ion-toolbar  [@visibilityChanged]="hide_header">
