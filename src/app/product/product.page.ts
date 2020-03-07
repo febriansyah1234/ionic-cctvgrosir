@@ -48,6 +48,8 @@ export class ProductPage implements OnInit {
   choose_terbaru:any = 0;
   product_category : any;
   actionSheet: any;
+  cat_filter_array=[];
+
   constructor(
     public platform : Platform,
     public http: HttpClient,
@@ -108,16 +110,18 @@ export class ProductPage implements OnInit {
       this.selected_sub_category = val.link;
       this.get_product('refresh', null);
   }  
-  async presentActionSheet(item) {
+  async presentActionSheet(item, dept) {
     let data : any = [];
     for(let i=0; i<item.length; i++){
       data.push({
         text : item[i].label,
+        cssClass: 'cat-has-children',
+        // icon: 'arrow-dropright-circle',
         handler : ()=>{
           console.log('subcategory selected, show possible has children');
           // this.choose_subcategory(item[i])
           // this.choose_kategori({detail:{value:item[i]}});
-          this.choose_kategori(item[i]);
+          this.choose_kategori(item[i], dept);
         }
       })
     }
@@ -181,9 +185,12 @@ export class ProductPage implements OnInit {
     //   this.hide_header = false;
     // };   
   };
-  choose_kategori(val){
-    console.log('choose kategory', val);
+  choose_kategori(val, dept){
+    console.log('choose kategory', val, dept);
     let hasil : any = {}
+    if(dept<=1) {
+      this.cat_filter_array = [];
+    }
     if(val=='semua'){
       this.selected_category = '';
       this.selected_sub_category = '';
@@ -194,9 +201,11 @@ export class ProductPage implements OnInit {
     if(typeof val == 'object'){
       // hasil = val.detail.value;
       hasil = val;
+      this.cat_filter_array.push(val);
+      console.log('filter category stack', this.cat_filter_array);
       if(hasil.children && hasil.children.length > 0){
         console.log('show subcategory action sheet');
-        this.presentActionSheet(hasil.children);
+        this.presentActionSheet(hasil.children, dept+1);
       }else {
         console.log('req product with filter category');
         this.selected_category = hasil.link;
@@ -250,15 +259,24 @@ export class ProductPage implements OnInit {
         selected_sub_category : this.selected_sub_category,
         min_price : this.min_price,
         max_price : this.max_price,
-        order : this.order,        
+        order : this.order,      
+        cat_filter: this.cat_filter_array  
        }
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
     console.log(data, 'data from modal')
     if (data != null) {
-      this.selected_category = data.selected_category;
-      this.selected_sub_category = data.selected_sub_category;
+      // this.selected_category = data.selected_category;
+      // this.selected_sub_category = data.selected_sub_category;
+      this.selected_category = '';
+      if(data.cat_filter) {
+        var fl = data.cat_filter.length;
+        if(fl>0){
+          this.selected_category = data.cat_filter[fl-1].link;
+          this.cat_filter_array = data.cat_filter;
+        }
+      }
       this.min_price = data.min_price;
       this.max_price = data.max_price;
       this.order = data.order;

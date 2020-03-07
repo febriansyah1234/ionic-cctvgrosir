@@ -50,13 +50,13 @@
   <!-- </ion-toolbar> -->
   <!-- <ion-toolbar> -->
     <!-- <ion-segment (ionChange)="choose_kategori($event)" scrollable> -->
-      <ion-segment scrollable>
+    <ion-segment scrollable>
       <ion-segment-button value="semua" checked>
-        <ion-label class="label_kategori" (click)="choose_kategori('semua')">Semua</ion-label>
+        <ion-label class="label_kategori" (click)="choose_kategori('semua',0)">Semua</ion-label>
       </ion-segment-button>
       <ng-container *ngFor="let item of product_category">
-        <ion-segment-button [value]="item" (click)="choose_kategori(item)">
-          <ion-label class="label_kategori">{{item.label}}</ion-label>
+        <ion-segment-button [value]="item" (click)="choose_kategori(item, 1)">
+          <ion-label class="label_kategori">{{item.label}}</ion-label>          
         </ion-segment-button>
       </ng-container>
     </ion-segment>
