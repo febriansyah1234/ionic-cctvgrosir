@@ -19,7 +19,7 @@ export class ProductService {
           id_pro : id_pro,
       })
       .subscribe(hasil => {
-        console.log('hasil', 'hasil')
+        console.log('product detail result', hasil);
         resolve(hasil);
       });      
     });

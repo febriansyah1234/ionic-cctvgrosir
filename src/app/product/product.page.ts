@@ -16,7 +16,7 @@ import { ConstantService } from '../providers/constant.service';
 @Component({
   selector: 'product',
   templateUrl: './product.page.html',
-  styleUrls: ['./product.page.scss'],
+  styleUrls: ['./product.page.scss', './product.page.css'],
   animations: [
     trigger('visibilityChanged', [
       state('shown', style({ opacity: 1, display : 'block' })),
@@ -35,7 +35,7 @@ export class ProductPage implements OnInit {
   max_price: any;
   selected_category: any;
   selected_sub_category: any;
-  order: any;
+  order: any = 'date_desc';
   loading: any;
   total_keranjang: any;
   alertfun : any;
@@ -125,7 +125,7 @@ export class ProductPage implements OnInit {
         }
       })
     }
-    console.log(data, 'DATA ITEM')
+    // console.log(data, 'DATA ITEM')
     this.actionSheet = await this.actionSheetController.create({
       header : 'Sub Kategori',
       buttons : data
@@ -194,6 +194,7 @@ export class ProductPage implements OnInit {
     if(val=='semua'){
       this.selected_category = '';
       this.selected_sub_category = '';
+      this.order = 'date_desc';
       this.get_product('refresh', null);
       return;      
     }

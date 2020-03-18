@@ -53,9 +53,10 @@ export class RiwayatOrderPage implements OnInit {
     })
   }
   ngOnInit() {
+    console.log('init riwayat order.......');
   }
   ionViewWillEnter() {
-    console.log('view wenter')
+    console.log('riwayat order will enter');
     this.userdata.getUsername().then( hsl => {
       console.log(hsl, 'hasil');
       if(hsl==null){
@@ -121,6 +122,11 @@ doRefresh(event) {
   this.get_product('refresh', event);
 }
 loadData(event) {
+  console.log('load more? ', this.list_product);
+  if(this.list_product.length == 0) {
+    event.target.complete();
+    return;
+  }
   this.get_product('loadmore', event);
 }
 search_product($event) {
@@ -128,6 +134,7 @@ search_product($event) {
   this.get_product('refresh', '');
 } 
 get_product(type, event) {
+  console.log('get riwayat order.......', type, event);
   if (type == 'refresh')
   this.list_product = [];
   this.http.post(API_URL_SLIDER + 'api_get_riwayat_order', {

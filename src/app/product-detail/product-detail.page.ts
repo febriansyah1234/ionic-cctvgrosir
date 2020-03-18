@@ -26,11 +26,16 @@ export class ProductDetailPage implements OnInit {
   total_keranjang: any;
   input_qty: any = 1;
   harga_jual_pro:any;
+  harga_jual_pro2=0;
+  harga_jual_reseller=0;
+  harga_user=0;
   stok_pro:any;
   loading:any;
   cover:any;
   data_user: any = {};
   desc_pro : any;
+  disc_pro = 0;
+  status_pel=0;
   constructor(
     public http: HttpClient,
     public modalCtrl: ModalController,
@@ -65,6 +70,8 @@ export class ProductDetailPage implements OnInit {
       }else{
         this.data_user=hsl;
         this.id_pro = this.route.snapshot.paramMap.get('id');
+        this.status_pel = hsl['status_pel'];
+        // this.status_pel = 0;
         this.get_product_detail();
         this.get_total_keranjang();
       }
@@ -95,12 +102,20 @@ export class ProductDetailPage implements OnInit {
       this.product_service.get_product_detail(this.id_pro).then(hsl => {
         this.data_product_detail = hsl;
         this.nama_pro= this.data_product_detail.produk[0].nama_pro;
+        
         this.harga_jual_pro= this.data_product_detail.produk[0].harga_jual_pro;
+        this.harga_jual_pro2 = this.data_product_detail.produk[0].harga_jual_pro2;
+        this.harga_jual_reseller = this.data_product_detail.produk[0].harga_reseller;
+        this.harga_user = this.data_product_detail.produk[0].harga_user;
+        this.disc_pro= this.data_product_detail.produk[0].disc_pro;
+        
         this.stok_pro= this.data_product_detail.produk[0].stok_pro;
-        console.log(this.nama_pro);
+        // console.log(this.nama_pro);
         this.desc_pro = this.data_product_detail.produk[0].desc_pro;
         this.cover=this.data_product_detail.cover;
         this.cover_style = { 'background-image' : 'url("'+this.data_product_detail.cover+'")'};
+        console.log(this.status_pel);
+        debugger;
       })
   }
   async insert_cart(){
